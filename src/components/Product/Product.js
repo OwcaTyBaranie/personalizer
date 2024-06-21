@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
 import styles from './Product.module.scss';
@@ -7,10 +7,10 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
 
-  const getPrice = () => {
+  const price = useMemo(() => {
     const sizePrice = sizes.find(size => size.name === currentSize).additionalPrice;
     return basePrice + sizePrice;
-  };
+  }, [basePrice, currentSize, sizes]);
 
   return (
     <article className={styles.product}>
@@ -18,7 +18,7 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
       <div>
         <header>
           <h2 className={styles.name}>{title}</h2>
-          <span className={styles.price}>Price: {getPrice()}$</span>
+          <span className={styles.price}>Price: {price}$</span>
         </header>
         <ProductForm
           basePrice={basePrice}
@@ -29,7 +29,6 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
           setCurrentColor={setCurrentColor}
           currentSize={currentSize}
           setCurrentSize={setCurrentSize}
-          getPrice={getPrice}
         />
       </div>
     </article>
@@ -37,3 +36,4 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
 };
 
 export default Product;
+
