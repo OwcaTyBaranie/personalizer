@@ -1,0 +1,11 @@
+@use 'sass:math';
+@import '../../styles/settings.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionLabel {
+  margin: $base-size 0;
+}
